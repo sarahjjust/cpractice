@@ -3,8 +3,9 @@
 
 #include "circle.h"
 
-static int DIMX = 50;
+static int DIMX = 200;
 static int DIMY = 50;
+static int SPEED = 1;
 
 struct circle {
   int x;
@@ -155,8 +156,17 @@ void drawCount(struct circleNode *list)
   }
 }
 
-int main()
+int main(int argc, char *argv[])
 {
+  if (argc >= 3) {
+    DIMX = atoi(argv[1]);
+    DIMY = atoi(argv[2]);
+  }
+
+  if (argc >= 4) {
+    SPEED = atoi(argv[3]);
+  }
+
   init();
 
   struct circleNode *list = NULL;
@@ -166,11 +176,11 @@ int main()
     for (int i = 0; i < 20; i++) {
       eraseList(list, DIMX, DIMY);
       drawList(list, DIMX, DIMY);
-      drawCount(list);
+      /*drawCount(list);*/
       refresh();
-      usleep(50000);
+      usleep(SPEED * 50000);
     }
-    while(list != NULL && list->age > 1 * DIMX && list->age > 1 * DIMY) {
+    while(list != NULL && list->age > 1.5 * DIMX && list->age > 1.5 * DIMY) {
       pop(&list);
     }
   }
